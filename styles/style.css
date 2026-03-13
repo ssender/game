@@ -1,0 +1,70 @@
+html {
+  /* px means "pixels". The base font size is now 10 pixels high */
+  font-size: 10px;
+  /* Replace PLACEHOLDER with the font-family property value you got from Google Fonts */
+  font-family: "Noto Serif", serif;
+
+  background-color: rgb(32, 32, 32);
+
+  
+}
+
+
+body{
+  background-color: #bfe690;
+  width: 768px;
+  color: #1a2d21;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+canvas {
+  image-rendering: pixelated;
+  width: 768px;
+  height: 432px;
+}
+
+h1 {
+  font-size : 55px;
+  margin-left: 16px;
+  margin-bottom: 0px;
+  margin-top: 16px;
+  padding: 0px;
+}
+
+h4 {
+  font-size : 14px;
+  margin-left: 16px;
+  margin-top: 0px;
+  margin-bottom: 32px;
+  font-weight: normal;
+}
+
+p{
+  font-size : 18px;
+  margin: 0px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+li{
+  font-size : 18px;
+  margin: 10px;
+}
+
+.header{
+  height: 83px;
+  background-image: url("../images/coach.jpg");
+  color: white;
+  background-size: 800px 533px;
+  width: 770px;
+  padding-left: 30px;
+  padding-top: 450px;
+  display: flex;
+  
+}
+
+.title{
+  font-size : 55px;
+  text-shadow: 2px 2px black;
+}
