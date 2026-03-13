@@ -1,28 +1,23 @@
+import("./game-objects/obj-character.js");
+
 const canvas = document.querySelector("canvas");
 
 const ctx = canvas.getContext("2d");
 ctx.fillStyle = "black";
-const image = new Image();
-image.src = "images/crosshair.png";
 
 const img_bg = new Image();
 img_bg.src = "images/header-smaller.png";
 
 
-function drawThing(drawx, drawy) {
-    ctx.drawImage(image, drawx, drawy);
+const chara = new ObjCharacter(16, 16);
+
+function update() {
+    objChara.update();
 }
 
-
-let x = 0;
-let y = 0;
-let dx = 20;
-let dy = 20;
-function update(dt){
-
-}
 function draw() {
     ctx.drawImage(img_bg, 0, 0);
+    objChara.draw();
 }
 
 let start;

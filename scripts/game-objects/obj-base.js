@@ -11,10 +11,13 @@ class ObjBase {
     }
 
     update() {
+
+        // at the end of the step, update the sprite data to match current sprite frame
         this.spritesheet.update(frame);
     }
     
     draw(context) {
+        // draw the sprite
         this.spritesheet.draw(context, this.x, this.y);
     }
 }

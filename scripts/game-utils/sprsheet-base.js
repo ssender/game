@@ -38,3 +38,5 @@ class Spritesheet {
         this.frameHeight = _img.height / _ncols;
     }
 }
+
+export default Spritesheet;
