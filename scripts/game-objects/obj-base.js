@@ -1,6 +1,6 @@
 // base class for all in-game objects
 
-class ObjBase {
+class Obj {
     x = 0;
     y = 0;
     spritesheet = undefined;
@@ -22,4 +22,4 @@ class ObjBase {
     }
 }
 
-export default ObjBase;
+export default Obj;
