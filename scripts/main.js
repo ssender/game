@@ -13,7 +13,7 @@ const inputs = {
     pad1 : false,
     pad1p : false
 }
-function getKeyUp(event) {
+function getKeyDown(event) {
     if (event.code === "ArrowLeft") {
         inputs.left = true;
         inputs.leftp = true;
@@ -31,7 +31,7 @@ function getKeyUp(event) {
         inputs.pad1p = true;
     } 
 }
-function getKeyDown(event) {
+function getKeyUp(event) {
     if (event.code === "ArrowLeft") {
         inputs.left = false;
     } else if (event.code === "ArrowRight") {
@@ -113,18 +113,66 @@ class Obj {
     }
 }
 class ObjCharacter extends Obj {
+    moving = false;
+    moveprogress = 0;
+    aframe = 0;
+    aclock = 0;
+    facing = 3; // 1-up, 2-right, 3-down, 4-left
     constructor(ix=0, iy=0) {
         super(ix, iy);
         this.spritesheet = new Spritesheet("images/mc_spritesheet.png", 4, 5, 64, 80);
     }
 
     update(_inputs) {
-        if (_inputs.rightp) {
-            this.x += 8;
+        if (this.moveprogress === 0) {
+            if (_inputs.right && this.x < 248) {
+                this.facing = 2;
+                this.moveprogress = 1;
+            }
+            if (_inputs.left && this.x > 8) {
+                this.facing = 4;
+                this.moveprogress = 1;
+            }
+            if (_inputs.up && this.y > 8) {
+                this.facing = 1;
+                this.moveprogress = 1;
+            }
+            if (_inputs.down && this.y < 136) {
+                this.facing = 3;
+                this.moveprogress = 1;
+            }
         }
-        if (_inputs.leftp) {
-            this.x += -8;
+        
+        if (this.moveprogress > 0) {
+            switch (this.facing) {
+                case 1:
+                    this.y += -1;
+                    break;
+                case 2:
+                    this.x += 1;
+                    break;
+                case 3:
+                    this.y += 1;
+                    break;
+                case 4:
+                    this.x += -1;
+                    break;
+            }
+            this.moveprogress += 1;
+            if (this.moveprogress > 16) {
+                this.moveprogress = 0;
+            }
+            this.aclock += 1;
+            if (this.aclock >= 6) {
+                this.aframe += 1;
+                this.aclock = 0;
+                if (this.aframe >= 5) {this.aframe = 1;}
+            }
+        } else {
+            this.aframe = 0;
+            this.aclock = 0;
         }
+        this.frame = (this.facing - 1)*5 + this.aframe;
         super.update(_inputs);
     }
 
@@ -143,7 +191,7 @@ img_bg.src = "images/header-smaller.png";
 const objChara = new ObjCharacter(8, 8);
 
 // define the main cycles
-function update(dt) {
+function update() {
     objChara.update(inputs);
     resetKeys();
 }
@@ -154,17 +202,20 @@ function draw() {
 }
 
 let start;
-
+let dt = 0;
 // When an Animation Frame is Requested, step is called, and is fed the time since the last frame through the argument timestamp
 function step(timestamp) {
     if (start === undefined) {
         start = timestamp;
     }
-    var dt = (timestamp - start)*0.001;
-    // update the values of the world in game
-    update(dt);
-    // draw all the things
-    draw();
+    dt += (timestamp - start)*0.001;
+    if (dt >= 0.025) {
+        // update the values of the world in game
+        update();
+        // draw all the things
+        draw();
+        dt = 0;
+    }
     start = timestamp;
     requestAnimationFrame(step);
 }
