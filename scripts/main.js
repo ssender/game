@@ -120,26 +120,40 @@ class ObjCharacter extends Obj {
     facing = 3; // 1-up, 2-right, 3-down, 4-left
     constructor(ix=0, iy=0) {
         super(ix, iy);
+        this.tilex = Math.round(ix/16);
+        this.tiley = Math.round(iy/16);
         this.spritesheet = new Spritesheet("images/mc_spritesheet.png", 4, 5, 64, 80);
     }
 
     update(_inputs) {
         if (this.moveprogress === 0) {
-            if (_inputs.right && this.x < 248) {
+            if (_inputs.right) {
                 this.facing = 2;
-                this.moveprogress = 1;
+                if (tilemap[this.tilex + 1][this.tiley] === 0) {
+                    this.moveprogress = 1;
+                    this.tilex += 1;
+                }
             }
-            if (_inputs.left && this.x > 8) {
+            if (_inputs.left) {
                 this.facing = 4;
-                this.moveprogress = 1;
+                if (tilemap[this.tilex - 1][this.tiley] === 0) {
+                    this.moveprogress = 1;
+                    this.tilex += -1;
+                }
             }
-            if (_inputs.up && this.y > 8) {
+            if (_inputs.up) {
                 this.facing = 1;
-                this.moveprogress = 1;
+                if (tilemap[this.tilex][this.tiley - 1] === 0) {
+                    this.moveprogress = 1;
+                    this.tiley += -1;
+                }
             }
-            if (_inputs.down && this.y < 136) {
+            if (_inputs.down) {
                 this.facing = 3;
-                this.moveprogress = 1;
+                if (tilemap[this.tilex][this.tiley + 1] === 0) {
+                    this.moveprogress = 1;
+                    this.tiley += 1;
+                }
             }
         }
         
@@ -188,16 +202,39 @@ const ctx = canvas.getContext("2d");
 // get the background
 const img_bg = new Image();
 img_bg.src = "images/header-smaller.png";
+const img_ts = new Image();
+img_ts.src = "images/ts1.png";
 const objChara = new ObjCharacter(8, 8);
-
+// define the tilemap
+let tilemap = new Array(17);
+for (var i=0; i<17; i++){
+    tilemap[i] = new Array(10);
+    tilemap[i].fill(0);
+}
+tilemap[0].fill(32);
+tilemap[16].fill(32);
+for (var i=1; i<16; i++) {
+    tilemap[i][0] = 32;
+    tilemap[i][9] = 32;
+}
+tilemap[2][2] = 32;
 // define the main cycles
 function update() {
     objChara.update(inputs);
     resetKeys();
 }
-
+function drawtilemap() {
+    for (var tx = 1; tx<16; tx++) {
+        for (var ty = 1; ty < 9; ty++) {
+            var sx = tilemap[tx][ty] % 8;
+            var sy = (tilemap[tx][ty] - sx)/8;
+            ctx.drawImage(img_ts, sx*16, sy*16, 16, 16, tx*16 - 8, ty*16 - 8, 16, 16);
+        }
+    }
+}
 function draw() {
     ctx.drawImage(img_bg, 0, 0);
+    drawtilemap();
     objChara.draw(ctx);
 }
 
