@@ -143,9 +143,8 @@ img_bg.src = "images/header-smaller.png";
 const objChara = new ObjCharacter(8, 8);
 
 // define the main cycles
-function update() {
+function update(dt) {
     objChara.update(inputs);
-
     resetKeys();
 }
 
@@ -161,9 +160,9 @@ function step(timestamp) {
     if (start === undefined) {
         start = timestamp;
     }
-    const elapsed = (timestamp - start)*0.001;
+    var dt = (timestamp - start)*0.001;
     // update the values of the world in game
-    update(elapsed);
+    update(dt);
     // draw all the things
     draw();
     start = timestamp;
