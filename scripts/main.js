@@ -129,28 +129,25 @@ class ObjCharacter extends Obj {
         if (this.moveprogress === 0) {
             if (_inputs.right) {
                 this.facing = 2;
-                if (tilemap[this.tilex + 1][this.tiley] === 0) {
+                if (tilemap[this.tilex + 1][this.tiley] < 32) {
                     this.moveprogress = 1;
                     this.tilex += 1;
                 }
-            }
-            if (_inputs.left) {
+            }else if (_inputs.left) {
                 this.facing = 4;
-                if (tilemap[this.tilex - 1][this.tiley] === 0) {
+                if (tilemap[this.tilex - 1][this.tiley] < 32) {
                     this.moveprogress = 1;
                     this.tilex += -1;
                 }
-            }
-            if (_inputs.up) {
+            }else if (_inputs.up) {
                 this.facing = 1;
-                if (tilemap[this.tilex][this.tiley - 1] === 0) {
+                if (tilemap[this.tilex][this.tiley - 1] < 32) {
                     this.moveprogress = 1;
                     this.tiley += -1;
                 }
-            }
-            if (_inputs.down) {
+            }else if (_inputs.down) {
                 this.facing = 3;
-                if (tilemap[this.tilex][this.tiley + 1] === 0) {
+                if (tilemap[this.tilex][this.tiley + 1] < 32) {
                     this.moveprogress = 1;
                     this.tiley += 1;
                 }
@@ -191,7 +188,7 @@ class ObjCharacter extends Obj {
     }
 
     draw(context) {
-        super.draw(context);
+        this.spritesheet.draw(context, this.x, this.y - 3);
     }
 }
 
@@ -202,22 +199,15 @@ const ctx = canvas.getContext("2d");
 // get the background
 const img_bg = new Image();
 img_bg.src = "images/header-smaller.png";
+// get the tileset image
 const img_ts = new Image();
 img_ts.src = "images/ts1.png";
+// SETUP SPECIFIC TO THIS ROOM
+// initialize the character object
 const objChara = new ObjCharacter(8, 8);
 // define the tilemap
-let tilemap = new Array(17);
-for (var i=0; i<17; i++){
-    tilemap[i] = new Array(10);
-    tilemap[i].fill(0);
-}
-tilemap[0].fill(32);
-tilemap[16].fill(32);
-for (var i=1; i<16; i++) {
-    tilemap[i][0] = 32;
-    tilemap[i][9] = 32;
-}
-tilemap[2][2] = 32;
+let tilemap = [[32,32,32,32,32,32,32,32,32,32],[32,0,0,0,16,16,16,0,0,32],[32,0,0,0,0,16,16,16,0,32],[32,0,0,0,0,0,16,0,0,32],[32,0,0,48,56,0,0,0,0,32],[32,0,48,56,0,0,0,32,0,32],[32,48,56,48,56,0,0,0,0,32],[32,0,48,56,0,0,0,0,0,32],[32,48,56,0,8,0,0,32,0,32],[32,0,0,0,8,8,8,0,0,32],[32,48,56,0,0,0,8,0,0,32],[32,0,48,56,0,0,8,0,0,32],[32,48,56,48,56,0,8,0,0,32],[32,0,48,56,0,0,8,0,0,32],[32,0,0,48,56,0,8,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,32,32,32,32,32,32,32,32,32]]																
+
 // define the main cycles
 function update() {
     objChara.update(inputs);
@@ -238,9 +228,10 @@ function draw() {
     objChara.draw(ctx);
 }
 
+// MAIN LOOP
+// When an Animation Frame is Requested, step is called, and is fed the time since the last frame through the argument timestamp
 let start;
 let dt = 0;
-// When an Animation Frame is Requested, step is called, and is fed the time since the last frame through the argument timestamp
 function step(timestamp) {
     if (start === undefined) {
         start = timestamp;
