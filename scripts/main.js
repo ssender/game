@@ -53,11 +53,8 @@ function resetKeys(){
 document.addEventListener("keydown", getKeyDown);
 document.addEventListener("keyup", getKeyUp);
 
-// objects
-
-import room from "./room1.js";
-
 // ROOM SETUP ------------------------------
+import room from "./room1.js";
 // initialize the canvas stuff
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");

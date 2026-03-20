@@ -13,31 +13,36 @@ class ObjCharacter extends Obj {
     }
 
     update(_inputs, _room) {
-        _tilemap = _room.tilemap;
+        var _tilemap = _room.tilemap;
+        var _targettilex = this.tilex;
+        var _targettiley = this.tiley;
         if (this.moveprogress === 0) {
             if (_inputs.right) {
                 this.facing = 2;
                 if (_tilemap[this.tilex + 1][this.tiley] < 32) {
-                    this.moveprogress = 1;
-                    this.tilex += 1;
+                    _targettilex += 1;
                 }
             }else if (_inputs.left) {
                 this.facing = 4;
                 if (_tilemap[this.tilex - 1][this.tiley] < 32) {
-                    this.moveprogress = 1;
-                    this.tilex += -1;
+                    _targettilex += -1;
                 }
             }else if (_inputs.up) {
                 this.facing = 1;
                 if (_tilemap[this.tilex][this.tiley - 1] < 32) {
-                    this.moveprogress = 1;
-                    this.tiley += -1;
+                    _targettiley += -1;
                 }
             }else if (_inputs.down) {
                 this.facing = 3;
                 if (_tilemap[this.tilex][this.tiley + 1] < 32) {
-                    this.moveprogress = 1;
-                    this.tiley += 1;
+                    _targettiley += 1;
+                }
+            }
+            if (_targettilex != this.tilex || _targettiley != this.tiley) {
+                this.moveprogress = 1;
+                var _objects_in_target_tile = _room.objects_at_tile(_targettilex, _targettiley);
+                for (var _i = 0; _i < _objects_in_target_tile.length; _i++) {
+                    if (_objects_in_target_tile[_i].has_collision) {this.moveprogress = 0};
                 }
             }
         }
