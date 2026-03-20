@@ -10,8 +10,8 @@ const inputs = {
     rightp : false,
     upp : false,
     downp : false,
-    pad1 : false,
-    pad1p : false
+    a : false,
+    ap : false
 }
 function getKeyDown(event) {
     if (event.code === "ArrowLeft") {
@@ -27,8 +27,8 @@ function getKeyDown(event) {
         inputs.down = true;
         inputs.downp = true;
     } else if (event.code === "KeyZ") {
-        inputs.pad1 = true;
-        inputs.pad1p = true;
+        inputs.a = true;
+        inputs.ap = true;
     } 
 }
 function getKeyUp(event) {
@@ -41,7 +41,7 @@ function getKeyUp(event) {
     } else if (event.code === "ArrowDown") {
         inputs.down = false;
     } else if (event.code === "KeyZ") {
-        inputs.pad1 = false;
+        inputs.a = false;
     } 
 }
 function resetKeys(){
@@ -49,6 +49,7 @@ function resetKeys(){
     inputs.rightp = false;
     inputs.upp = false;
     inputs.downp = false;
+    inputs.ap = false;
 }
 document.addEventListener("keydown", getKeyDown);
 document.addEventListener("keyup", getKeyUp);
@@ -80,7 +81,7 @@ function draw() {
     // tilemap
     drawtilemap();
     // objects
-    objects.forEach((obj) => obj.draw(ctx));
+    room.objects.forEach((obj) => obj.draw(ctx));
     // frame
     ctx.drawImage(room.img_fg, 0, 0);
 }

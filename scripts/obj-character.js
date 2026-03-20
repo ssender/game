@@ -16,7 +16,31 @@ class ObjCharacter extends Obj {
         var _tilemap = _room.tilemap;
         var _targettilex = this.tilex;
         var _targettiley = this.tiley;
+        var _objects_in_target_tile = undefined;
         if (this.moveprogress === 0) {
+            // do interactions if A button pressed
+            if (_inputs.ap) {
+                switch (this.facing) {
+                    case 1:
+                        _targettiley += -1;
+                        break;
+                    case 2:
+                        _targettilex += 1;
+                        break;
+                    case 3:
+                        _targettiley += 1;
+                        break;
+                    case 4:
+                        _targettilex += -1;
+                        break;
+                }
+                _objects_in_target_tile = _room.objects_at_tile(_targettilex, _targettiley);
+                if (_objects_in_target_tile.length != 0) {
+                    _objects_in_target_tile[0].activate();
+                }
+                return;
+            }
+            // initial check of tiles
             if (_inputs.right) {
                 this.facing = 2;
                 if (_tilemap[this.tilex + 1][this.tiley] < 32) {
@@ -39,9 +63,11 @@ class ObjCharacter extends Obj {
                 }
             }
             if (_targettilex != this.tilex || _targettiley != this.tiley) {
+                // check for collidible objects
                 this.moveprogress = 1;
-                var _objects_in_target_tile = _room.objects_at_tile(_targettilex, _targettiley);
+                _objects_in_target_tile = _room.objects_at_tile(_targettilex, _targettiley);
                 for (var _i = 0; _i < _objects_in_target_tile.length; _i++) {
+                    // cancel movement if there is a collision 
                     if (_objects_in_target_tile[_i].has_collision) {this.moveprogress = 0};
                     break;
                 }
