@@ -50,6 +50,8 @@ class ObjCharacter extends Obj {
                 this.facing = 4;
                 if (_tilemap[this.tilex - 1][this.tiley] < 32) {
                     _targettilex += -1;
+                }else{
+                    console.log("movement blocked by tile", _tilemap[this.tilex - 1][this.tiley]);
                 }
             }else if (_inputs.up) {
                 this.facing = 1;
@@ -68,8 +70,12 @@ class ObjCharacter extends Obj {
                 _objects_in_target_tile = _room.objects_at_tile(_targettilex, _targettiley);
                 for (var _i = 0; _i < _objects_in_target_tile.length; _i++) {
                     // cancel movement if there is a collision 
-                    if (_objects_in_target_tile[_i].has_collision) {this.moveprogress = 0};
+                    if (_objects_in_target_tile[_i].has_collision) {this.moveprogress = 0;}
                     break;
+                }
+                if (this.moveprogress === 1) {
+                    this.tilex = _targettilex;
+                    this.tiley = _targettiley;
                 }
             }
         }

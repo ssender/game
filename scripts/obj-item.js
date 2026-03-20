@@ -35,6 +35,7 @@ class ObjItem extends Obj {
         this.aclock = 0;
         this.aframe = 0;
         this.state = 2;
+        this.has_collision = false;
     }
 
     draw(_context) {
@@ -45,7 +46,7 @@ class ObjItem extends Obj {
                 this.spritesheet.draw(_context, this.x, this.y + this.aframe - 2);
                 break;
             case 2:
-                if (this.aclock % 2 === 0) {this.spritesheet.draw(_context, this.x, this.y - 2 - Math.floor(this.aclock * 0.2));}
+                if (this.aclock % 2 === 0) {this.spritesheet.draw(_context, this.x, this.y - 5 - Math.floor(this.aclock * 0.2));}
                 break;
         }
         
