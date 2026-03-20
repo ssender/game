@@ -1,3 +1,4 @@
+
 class Obj {
     x = 0;
     y = 0;
