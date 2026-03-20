@@ -1,5 +1,5 @@
 import * as Obj from "./obj-base.js";
-
+console.log(Obj);
 class ObjCharacter extends Obj {
     moving = false;
     moveprogress = 0;
