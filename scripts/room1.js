@@ -20,6 +20,6 @@ const room = {
 
 room.img_bg.src = "images/header-smaller.png";
 room.img_fg.src = "images/frame.png";
-room.img_ts = "images/ts1.png";
+room.img_ts.src = "images/ts1.png";
 
 export default room;

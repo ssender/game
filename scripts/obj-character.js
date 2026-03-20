@@ -43,6 +43,7 @@ class ObjCharacter extends Obj {
                 var _objects_in_target_tile = _room.objects_at_tile(_targettilex, _targettiley);
                 for (var _i = 0; _i < _objects_in_target_tile.length; _i++) {
                     if (_objects_in_target_tile[_i].has_collision) {this.moveprogress = 0};
+                    break;
                 }
             }
         }
