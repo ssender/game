@@ -52,46 +52,9 @@ function resetKeys(){
 }
 document.addEventListener("keydown", getKeyDown);
 document.addEventListener("keyup", getKeyUp);
-// spritesheets base class
-class Spritesheet {
-    nrows = 1;
-    ncols = 1;
-    img = new Image();
-    nframes = 1;
-    frameWidth = 1;
-    frameHeight = 1;
-    sheetx = 0; // stores the target coordinates between the update and draw steps.
-    sheety = 0;
 
-    update(frame){
-        if (frame >= this.nframes) {
-            frame = frame % this.nframes;
-        }
-        var _col = (frame % this.ncols); // get the column index within the sprite image
-        var _row = (frame - _col) / this.ncols; // get the row index within the sprite image
-        this.sheetx = _col * this.frameWidth;
-        this.sheety = _row * this.frameHeight;
-    }
-
-    draw(context, x, y) {
-        context.drawImage(this.img, 
-            this.sheetx, this.sheety, 
-            this.frameWidth, this.frameHeight, 
-            x, y, 
-            this.frameWidth, this.frameHeight);
-    }
-
-    constructor(_img, _nrows, _ncols, _imgwidth, _imgheight) {
-        this.img.src = _img;
-        this.nrows = _nrows;
-        this.ncols = _ncols;
-        this.nframes = _nrows * _ncols;
-        this.frameWidth = _imgwidth / _nrows;
-        this.frameHeight = _imgheight / _ncols;
-    }
-}
 // objects
-import * as ObjCharacter from "./obj-character.js"
+import ObjCharacter from "./obj-character.js"
 
 // ROOM SETUP
 // initialize the canvas stuff
@@ -107,7 +70,7 @@ img_ts.src = "images/ts1.png";
 // initialize the character object
 const objChara = new ObjCharacter(8, 8);
 // define the tilemap
-let tilemap = [[32,32,32,32,32,32,32,32,32,32],[32,0,0,0,16,16,16,0,0,32],[32,0,0,0,0,16,16,16,0,32],[32,0,0,0,0,0,16,0,0,32],[32,0,0,48,56,0,0,0,0,32],[32,0,48,56,0,0,0,32,0,32],[32,48,56,48,56,0,0,0,0,32],[32,0,48,56,0,0,0,0,0,32],[32,48,56,0,8,0,0,32,0,32],[32,0,0,0,8,8,8,0,0,32],[32,48,56,0,0,0,8,0,0,32],[32,0,48,56,0,0,8,0,0,32],[32,48,56,48,56,0,8,0,0,32],[32,0,48,56,0,0,8,0,0,32],[32,0,0,48,56,0,8,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,32,32,32,32,32,32,32,32,32]]																
+let tilemap = [[32,32,32,32,32,32,32,32,32,32],[32,0,0,0,16,16,16,0,0,32],[32,0,0,0,0,16,16,16,0,32],[32,0,0,0,0,0,16,0,0,32],[32,0,0,48,56,0,0,0,0,32],[32,0,48,56,0,0,0,32,0,32],[32,48,56,48,56,0,0,0,0,32],[32,0,48,56,0,0,0,0,0,32],[32,48,56,0,8,0,0,32,0,32],[32,0,0,0,8,8,8,0,0,32],[32,48,56,0,0,0,8,0,0,32],[32,0,48,56,0,0,8,0,0,32],[32,48,56,48,56,0,8,0,0,32],[32,0,48,56,0,0,8,0,0,32],[32,0,0,48,56,0,8,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,32,32,32,32,32,32,32,32,32]];
 
 // define the main cycles
 function update() {

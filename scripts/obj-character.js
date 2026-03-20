@@ -1,4 +1,5 @@
 import Obj from "./obj-base.js";
+import Spritesheet from "./sprsheet-base.js";
 
 class ObjCharacter extends Obj {
     moving = false;
