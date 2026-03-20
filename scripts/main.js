@@ -74,7 +74,7 @@ let tilemap = [[32,32,32,32,32,32,32,32,32,32],[32,0,0,0,16,16,16,0,0,32],[32,0,
 
 // define the main cycles
 function update() {
-    objChara.update(inputs);
+    objChara.update(inputs, tilemap);
     resetKeys();
 }
 function drawtilemap() {

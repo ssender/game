@@ -14,29 +14,29 @@ class ObjCharacter extends Obj {
         this.spritesheet = new Spritesheet("images/mc_spritesheet.png", 4, 5, 64, 80);
     }
 
-    update(_inputs) {
+    update(_inputs, _tilemap) {
         if (this.moveprogress === 0) {
             if (_inputs.right) {
                 this.facing = 2;
-                if (tilemap[this.tilex + 1][this.tiley] < 32) {
+                if (_tilemap[this.tilex + 1][this.tiley] < 32) {
                     this.moveprogress = 1;
                     this.tilex += 1;
                 }
             }else if (_inputs.left) {
                 this.facing = 4;
-                if (tilemap[this.tilex - 1][this.tiley] < 32) {
+                if (_tilemap[this.tilex - 1][this.tiley] < 32) {
                     this.moveprogress = 1;
                     this.tilex += -1;
                 }
             }else if (_inputs.up) {
                 this.facing = 1;
-                if (tilemap[this.tilex][this.tiley - 1] < 32) {
+                if (_tilemap[this.tilex][this.tiley - 1] < 32) {
                     this.moveprogress = 1;
                     this.tiley += -1;
                 }
             }else if (_inputs.down) {
                 this.facing = 3;
-                if (tilemap[this.tilex][this.tiley + 1] < 32) {
+                if (_tilemap[this.tilex][this.tiley + 1] < 32) {
                     this.moveprogress = 1;
                     this.tiley += 1;
                 }
