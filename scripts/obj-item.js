@@ -1,0 +1,55 @@
+import Obj from "./obj-base.js";
+import Spritesheet from "./sprsheet-base.js";
+
+class ObjItem extends Obj {
+    aframe = 0;
+    aclock = 0;
+    state = 1; // 0-disabled, 1-idle, 2-activated
+    constructor(ix=0, iy=0) {
+        super(ix, iy);
+        this.spritesheet = new Spritesheet("images/pretzel-stick.png", 4, 5, 64, 80);
+        this.has_collision = true;
+    }
+
+    update(_inputs, _room) {
+        switch (this.state)
+        {
+            case 0:
+                break;
+            case 1: //idle anim
+                this.aclock += 1;
+                if (this.aclock >= 60) {this.aclock = 0;}
+                if (this.aclock < 15) {this.aframe = 0;}
+                else if (this.aclock < 30) {this.aframe = 1;}
+                else if (this.aclock < 45) {this.aframe = 0;}
+                else {this.aframe = -1;}
+                break;
+            case 2: //collect anim
+                this.aclock += 1;
+                if (this.aclock > 30) {this.state = 0;}
+                break;
+        }
+    }
+
+    activate(_playerobj){
+        this.aclock = 0;
+        this.aframe = 0;
+        this.state = 2;
+    }
+
+    draw(_context) {
+        switch(this.state){
+            case 0:
+                break;
+            case 1:
+                this.spritesheet.draw(_context, this.x, this.y + this.aframe - 2);
+                break;
+            case 2:
+                if (this.aclock % 2 === 0) {this.spritesheet.draw(_context, this.x, this.y - 2 - Math.floor(this.aclock * 0.2));}
+                break;
+        }
+        
+    }
+}
+
+export default ObjItem

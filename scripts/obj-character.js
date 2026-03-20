@@ -9,12 +9,11 @@ class ObjCharacter extends Obj {
     facing = 3; // 1-up, 2-right, 3-down, 4-left
     constructor(ix=0, iy=0) {
         super(ix, iy);
-        this.tilex = Math.round(ix/16);
-        this.tiley = Math.round(iy/16);
         this.spritesheet = new Spritesheet("images/mc_spritesheet.png", 4, 5, 64, 80);
     }
 
-    update(_inputs, _tilemap) {
+    update(_inputs, _room) {
+        _tilemap = _room.tilemap;
         if (this.moveprogress === 0) {
             if (_inputs.right) {
                 this.facing = 2;
@@ -73,11 +72,11 @@ class ObjCharacter extends Obj {
             this.aclock = 0;
         }
         this.frame = (this.facing - 1)*5 + this.aframe;
-        super.update(_inputs);
+        super.update(_inputs, _room);
     }
 
-    draw(context) {
-        this.spritesheet.draw(context, this.x, this.y - 3);
+    draw(_context) {
+        this.spritesheet.draw(_context, this.x, this.y - 3);
     }
 }
 
