@@ -1,5 +1,5 @@
 import Obj from "./obj-base.js";
-import Spritesheet from "./sprsheet-base.js";
+import Spritesheet from "./sprsheet.js";
 
 class ObjItem extends Obj {
     aframe = 0;
@@ -7,7 +7,7 @@ class ObjItem extends Obj {
     state = 1; // 0-disabled, 1-idle, 2-activated
     constructor(ix=0, iy=0) {
         super(ix, iy);
-        this.spritesheet = new Spritesheet("images/pretzel-stick.png", 4, 5, 64, 80);
+        this.spritesheet = new Spritesheet("images/pretzel-stick.png", 1, 1);
         this.has_collision = true;
     }
 
@@ -43,10 +43,10 @@ class ObjItem extends Obj {
             case 0:
                 break;
             case 1:
-                this.spritesheet.draw(_context, this.x, this.y + this.aframe - 2);
+                this.spritesheet.draw(_context, this.x, this.y + this.aframe - 2, 0);
                 break;
             case 2:
-                if (this.aclock % 2 === 0) {this.spritesheet.draw(_context, this.x, this.y - 5 - Math.floor(this.aclock * 0.2));}
+                if (this.aclock % 2 === 0) {this.spritesheet.draw(_context, this.x, this.y - 5 - Math.floor(this.aclock * 0.2), 0);}
                 break;
         }
         

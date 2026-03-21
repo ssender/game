@@ -13,14 +13,12 @@ class Obj {
     }
 
     update(_inputs, _room) {
-
         // at the end of the step, update the sprite data to match current sprite frame
-        this.spritesheet.update(this.frame);
     }
     
     draw(_context) {
         // draw the sprite
-        this.spritesheet.draw(_context, this.x, this.y);
+        this.spritesheet.draw(_context, this.x, this.y, this.frame);
     }
 }
 

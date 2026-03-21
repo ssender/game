@@ -1,5 +1,5 @@
 import Obj from "./obj-base.js";
-import Spritesheet from "./sprsheet-base.js";
+import Spritesheet from "./sprsheet.js";
 
 class ObjCharacter extends Obj {
     moving = false;
@@ -9,7 +9,7 @@ class ObjCharacter extends Obj {
     facing = 3; // 1-up, 2-right, 3-down, 4-left
     constructor(ix=0, iy=0) {
         super(ix, iy);
-        this.spritesheet = new Spritesheet("images/mc_spritesheet.png", 4, 5, 64, 80);
+        this.spritesheet = new Spritesheet("images/mc_spritesheet.png", 4, 5);
     }
 
     update(_inputs, _room) {
@@ -114,7 +114,7 @@ class ObjCharacter extends Obj {
     }
 
     draw(_context) {
-        this.spritesheet.draw(_context, this.x, this.y - 3);
+        this.spritesheet.draw(_context, this.x, this.y - 3, (this.facing - 1)*5 + this.aframe);
     }
 }
 

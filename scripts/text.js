@@ -1,13 +1,15 @@
-const img_text = new Image();
-img_text.src = "images/text.png";
-const promises = new Array(96);
-img_text.onload = () => {
-    for (var ty = 0; ty < 6; ty++) {
-        for (var tx=0; tx < 16; tx++) {
-            promises[ty*16 + tx] = createImageBitmap(img_text, tx*8, ty*12, 8, 12);
+import Spritesheet from "./sprsheet.js";
+const PixelText = {
+    sprite: new Spritesheet("images/text.png", 6, 16, 128, 72),
+    encoder: new TextEncoder(),
+    draw(_context, _text, _x, _y) {
+        if (this.sprite.loaded) {
+            var _chars = this.encoder.encode(_text);
+            for (var _i = 0; _i < _chars.length; _i++) {
+                this.sprite.draw(_context, _x, _y, _chars[_i] - 32);
+                _x += 8;
+            }
         }
     }
-    const sprites = Promise.all(promises)
 }
-
-export default await sprites;
+export default PixelText;

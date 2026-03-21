@@ -58,7 +58,8 @@ document.addEventListener("keyup", getKeyUp);
 
 // ROOM SETUP ------------------------------
 import room from "./room1.js";
-
+import PixelText from "./text.js";
+console.log(PixelText)
 // initialize the canvas stuff
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -78,6 +79,7 @@ function step(timestamp) {
         resetKeys();
         // draw all the things
         room.draw(ctx);
+        PixelText.draw(ctx, "test", 20, 50);
         dt = 0;
     }
     start = timestamp;

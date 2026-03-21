@@ -1,8 +1,9 @@
+import Spritesheet from "./sprsheet.js";
 const room = {
     img_bg : new Image(),
     img_fg : new Image(),
     objects : [],
-    img_ts : new Image(),
+    img_ts : new Spritesheet("images/ts1.png", 8, 8),
     tilemap : [[32,32,32,32,32,32,32,32,32,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,0,0,0,0,0,0,0,0,32],[32,32,32,32,32,32,32,32,32,32]],
     objects_at_tile(tx, ty) {
         var out = [];
@@ -20,11 +21,11 @@ const room = {
         // background
         _ctx.drawImage(this.img_bg, 0, 0);
         // tilemap
-        for (var tx = 1; tx<16; tx++) {
-            for (var ty = 1; ty < 9; ty++) {
-                var sx = this.tilemap[tx][ty] % 8;
-                var sy = (this.tilemap[tx][ty] - sx)/8;
-                _ctx.drawImage(this.img_ts, sx*16, sy*16, 16, 16, tx*16 - 8, ty*16 - 8, 16, 16);
+        if (this.img_ts.loaded) {
+            for (var tx = 1; tx<16; tx++) {
+                for (var ty = 1; ty < 9; ty++) {
+                    this.img_ts.draw(_ctx, tx*16 - 8, ty*16 - 8, this.tilemap[tx][ty]);
+                }
             }
         }
         // objects
@@ -36,6 +37,6 @@ const room = {
 
 room.img_bg.src = "images/header-smaller.png";
 room.img_fg.src = "images/frame.png";
-room.img_ts.src = "images/ts1.png";
+
 
 export default room;
