@@ -30,6 +30,7 @@ function getKeyDown(event) {
         inputs.a = true;
         inputs.ap = true;
     } 
+    event.preventDefault();
 }
 function getKeyUp(event) {
     if (event.code === "ArrowLeft") {
@@ -43,6 +44,7 @@ function getKeyUp(event) {
     } else if (event.code === "KeyZ") {
         inputs.a = false;
     } 
+    event.preventDefault();
 }
 function resetKeys(){
     inputs.leftp = false;
@@ -56,35 +58,10 @@ document.addEventListener("keyup", getKeyUp);
 
 // ROOM SETUP ------------------------------
 import room from "./room1.js";
+
 // initialize the canvas stuff
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-
-// define the main cycles
-function update() {
-    room.objects.forEach((obj) => obj.update(inputs, room))
-    resetKeys();
-}
-function drawtilemap() {
-    var _tilesetimg = room.img_ts;
-    for (var tx = 1; tx<16; tx++) {
-        for (var ty = 1; ty < 9; ty++) {
-            var sx = room.tilemap[tx][ty] % 8;
-            var sy = (room.tilemap[tx][ty] - sx)/8;
-            ctx.drawImage(_tilesetimg, sx*16, sy*16, 16, 16, tx*16 - 8, ty*16 - 8, 16, 16);
-        }
-    }
-}
-function draw() {
-    // background
-    ctx.drawImage(room.img_bg, 0, 0);
-    // tilemap
-    drawtilemap();
-    // objects
-    room.objects.forEach((obj) => obj.draw(ctx));
-    // frame
-    ctx.drawImage(room.img_fg, 0, 0);
-}
 
 // MAIN LOOP ------------------------------
 // When an Animation Frame is Requested, step is called, and is fed the time since the last frame through the argument timestamp
@@ -97,9 +74,10 @@ function step(timestamp) {
     dt += (timestamp - start)*0.001;
     if (dt >= 0.025) {
         // update the values of the world in game
-        update();
+        room.update(inputs);
+        resetKeys();
         // draw all the things
-        draw();
+        room.draw(ctx);
         dt = 0;
     }
     start = timestamp;
